@@ -11,55 +11,57 @@ namespace digitalATM
 
             // starts session to track transactions and build receipt
             int balance = 10000; // initial balance
-            // launches UserPanel and keep open until user exits
-            bool keepGoing = true;
-            while(keepGoing)
-            {
-                keepGoing = UserPanel(balance);
-            }
+            string receiptString = ""; // empty receipt string
+            // launches UserPanel
+            receiptString = UserPanel(balance, receiptString);
             // prints receipt after user exits
+            Console.WriteLine(receiptString);
+            Console.ReadLine();
         }
 
-        public static bool UserPanel(int balance)
+        public static string UserPanel(int balance, string receiptString)
         {
-            // initiate session
-            string receiptString = ""; // empty receipt string
-            // get user's transaction selection
-            Console.WriteLine("Please select a transaction:");
-            Console.WriteLine("(1) View balance");
-            Console.WriteLine("(2) Deposit funds");
-            Console.WriteLine("(3) Withdraw funds");
-            Console.WriteLine("(4) End session");
-            string transact = Console.ReadLine();
-            // route user's transaction selection
-            string[] transactionResults = { "", "" };
-
-            switch(transact)
+            bool keepGoing = true;
+            while (keepGoing)
             {
-                case "1":
-                    transactionResults = ViewBalance(balance);
-                    balance = Convert.ToInt16(transactionResults[1]);
-                    receiptString += transactionResults[0];
-                    break;
-                case "2":
-                    Console.WriteLine("Enter deposit amount: ");
-                    string depositAmt = Console.ReadLine();
-                    transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
-                    balance = Convert.ToInt16(transactionResults[1]);
-                    receiptString += transactionResults[0];
-                    break;
-                case "3":
-                    Console.WriteLine("Enter withdrawal amount: ");
-                    string withdrawAmt = Console.ReadLine();
-                    transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
-                    balance = Convert.ToInt16(transactionResults[1]);
-                    receiptString += transactionResults[0];
-                    break;
-                default:
-                    return false;
+                // get user's transaction selection
+                Console.WriteLine("Please select a transaction:");
+                Console.WriteLine("(1) View balance");
+                Console.WriteLine("(2) Deposit funds");
+                Console.WriteLine("(3) Withdraw funds");
+                Console.WriteLine("(4) End session");
+                string transact = Console.ReadLine();
+                // route user's transaction selection
+                string[] transactionResults = { "", "" };
+
+                switch (transact)
+                {
+                    case "1":
+                        transactionResults = ViewBalance(balance);
+                        balance = Convert.ToInt16(transactionResults[1]);
+                        receiptString += transactionResults[0];
+                        break;
+                    case "2":
+                        Console.WriteLine("Enter deposit amount: ");
+                        string depositAmt = Console.ReadLine();
+                        transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
+                        balance = Convert.ToInt16(transactionResults[1]);
+                        receiptString += transactionResults[0];
+                        break;
+                    case "3":
+                        Console.WriteLine("Enter withdrawal amount: ");
+                        string withdrawAmt = Console.ReadLine();
+                        transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
+                        balance = Convert.ToInt16(transactionResults[1]);
+                        receiptString += transactionResults[0];
+                        break;
+                    default:
+                        keepGoing = false;
+                        break;
+                }
             }
 
-            return true; // if user selects 'exit', return 'false'
+            return receiptString; // if user selects 'exit', return 'false'
         }
 
         public static string[] ViewBalance(int balance)
