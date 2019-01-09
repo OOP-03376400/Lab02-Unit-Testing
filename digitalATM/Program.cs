@@ -5,6 +5,7 @@ namespace digitalATM
     public class Program
     {
 
+
         public static void Main(string[] args)
         {
             int balance = 10000;
@@ -14,23 +15,25 @@ namespace digitalATM
             // prints receipt after user exits
         }
 
-        public static string ViewBalance(int balance)
+        public static string[] ViewBalance(int balance)
         {
             string transaction = "Checked balance: $" + balance + ";";
 
-            return transaction;
+            string[] returnArray = { transaction, balance.ToString() };
+            return returnArray;
         }
 
-        public static string Deposit(int balance, int depositAmt)
+        public static string[] Deposit(int balance, int depositAmt)
         {
             balance += depositAmt;
 
             string transaction = "Deposited $" + depositAmt + ". New balance: $" + balance + ";";
 
-            return transaction;
+            string[] returnArray = { transaction, balance.ToString() };
+            return returnArray;
         }
 
-        public static string Withdraw(int balance, int withdrawAmt)
+        public static string[] Withdraw(int balance, int withdrawAmt)
         {
             string transaction = "";
             if (balance > withdrawAmt)
@@ -43,8 +46,8 @@ namespace digitalATM
                 transaction = "Withdraw $" + withdrawAmt + ". Insufficient funds. Balance: $" + balance + ";";
             }
 
-
-            return transaction;
+            string[] returnArray = { transaction, balance.ToString() };
+            return returnArray;
         }
 
         public static string[] BuildReceipt(string receiptString)
