@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnitTesting
+namespace digitalATM
 {
     public class Program
     {
@@ -14,9 +14,9 @@ namespace UnitTesting
             // prints receipt after user exits
         }
 
-        public static string ViewBalance()
+        public static string ViewBalance(int balance)
         {
-            string transaction = "0,0,";
+            string transaction = "0,0," + balance;
 
             return transaction;
         }
