@@ -40,20 +40,38 @@ namespace digitalATM
                         transactionResults = ViewBalance(balance);
                         balance = Convert.ToInt16(transactionResults[1]);
                         receiptString += transactionResults[0];
+                        Console.WriteLine(transactionResults[0]);
+                        Console.ReadLine();
                         break;
                     case "2":
-                        Console.WriteLine("Enter deposit amount: ");
+                        try
+                        {
+                            Console.WriteLine("Enter deposit amount: ");
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Invalid input - cancelling transaction");
+                        }
                         string depositAmt = Console.ReadLine();
                         transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
                         balance = Convert.ToInt16(transactionResults[1]);
                         receiptString += transactionResults[0];
-                        break;
+                        Console.WriteLine(transactionResults[0]);
+                        Console.ReadLine(); break;
                     case "3":
-                        Console.WriteLine("Enter withdrawal amount: ");
+                        try
+                        {
+                            Console.WriteLine("Enter withdrawal amount: ");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Invalid input - cancelling transaction");
+                        }
                         string withdrawAmt = Console.ReadLine();
                         transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
                         balance = Convert.ToInt16(transactionResults[1]);
-                        receiptString += transactionResults[0];
+                        Console.WriteLine(transactionResults[0]);
+                        Console.ReadLine(); receiptString += transactionResults[0];
                         break;
                     default:
                         keepGoing = false;
@@ -67,8 +85,8 @@ namespace digitalATM
         public static string[] ViewBalance(int balance)
         {
             string transaction = "Checked balance: $" + balance + ";";
-            Console.WriteLine(transaction);
-            Console.ReadLine();
+            //Console.WriteLine(transaction);
+            //Console.ReadLine();
 
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
@@ -76,11 +94,20 @@ namespace digitalATM
 
         public static string[] Deposit(int balance, int depositAmt)
         {
-            balance += depositAmt;
+            string transaction = "";
 
-            string transaction = "Deposited $" + depositAmt + ". New balance: $" + balance + ";";
-            Console.WriteLine(transaction);
-            Console.ReadLine();
+            if (depositAmt > 0)
+            {
+                balance += depositAmt;
+                transaction = "Deposited $" + depositAmt + ". New balance: $" + balance + ";";
+            }
+            else
+            {
+                transaction = "Invalid (negative) deposit amount. Try 'Withdraw funds' instead. New balance: $" + balance + ";";
+            }
+
+            //Console.WriteLine(transaction);
+            //Console.ReadLine();
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
         }
@@ -97,8 +124,8 @@ namespace digitalATM
             {
                 transaction = "Withdraw $" + withdrawAmt + ". Insufficient funds. Balance: $" + balance + ";";
             }
-            Console.WriteLine(transaction);
-            Console.ReadLine();
+            //Console.WriteLine(transaction);
+            //Console.ReadLine();
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
         }
