@@ -16,9 +16,35 @@ namespace digitalATM
 
         public static string ViewBalance(int balance)
         {
-            string transaction = "0,0," + balance;
+            string transaction = "Checked balance: $" + balance + ";";
 
             return transaction;
+        }
+
+        public static string Deposit(int balance, int depositAmt)
+        {
+            balance += depositAmt;
+
+            string transaction = "Deposited $" + depositAmt + ". New balance: $" + balance + ";";
+
+            return transaction;
+        }
+
+        public static string Withdraw(int balance, int withdrawAmt)
+        {
+            balance -= withdrawAmt;
+
+            string transaction = "Withdrew $" + withdrawAmt + ". New balance: $" + balance + ";";
+
+            return transaction;
+        }
+
+        public static string[] BuildReceipt(string receiptString)
+        {
+            receiptString = receiptString.TrimEnd(';');
+            string[] receiptArray = receiptString.Split(";");
+
+            return receiptArray;
         }
 
         // Interface method
@@ -28,26 +54,23 @@ namespace digitalATM
         // - route to InvalidInputs if invalid
         // - return true to Main (to keep running until user exits)
         // - return false to Main (to exit when selected by user)
-        // Tests
-        // - return true when user doesn't exit
-        // - return false when user exits
 
         // ViewBalance method
         // - calls ShowData with balance
-        // - return receipt string
+        // - DONE return receipt string
 
         // Deposit method
         // - throw exception if invalid deposit amount
         // - adds to balance
         // - calls ShowData with deposit amount and new balance
-        // - return receipt string
+        // - DONE return receipt string
 
         // Withdraw method
         // - throw exception if invalid withdrawal amount
         // - check for sufficient funds
         // - change withdrawal amount to $0 if insufficient (try-catch)
         // - calls ShowData with withdrawal amount and new balance (finally)
-        // - return receipt string
+        // - DONE return receipt string
 
         // ShowData method
         // builds receipt string and displays single transaction
@@ -56,7 +79,6 @@ namespace digitalATM
         // - (Deposit - 1) displays deposit amount and new balance
         // - (Withdraw - 2) displays withdrawal amount and new balance
         // - (Withdraw catch - 3) displays available balance and overdraft message
-        // - return receipt string
 
         // BuildReceipt
         // - receives receipt string
@@ -66,8 +88,7 @@ namespace digitalATM
         // InvalidInputs
         // - handle invalid inputs with try-catch
 
-        // Transaction Record Format
-        // transType,amount,balance
-        // "2,20,980"
+        // DONE Transaction Record Format
+        // DONE "Deposited $50. New balance: $1050;"
     }
 }
