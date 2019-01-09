@@ -4,11 +4,11 @@ namespace digitalATM
 {
     public class Program
     {
-        public int balance = 1000; // set initial balance
-        // public string receipt = "";
 
         public static void Main(string[] args)
         {
+            int balance = 10000;
+            string receiptString = "";
             // starts session to track transactions and build receipt
             // launches Interface (w/ balance) and keep open until user exits
             // prints receipt after user exits
@@ -32,9 +32,17 @@ namespace digitalATM
 
         public static string Withdraw(int balance, int withdrawAmt)
         {
-            balance -= withdrawAmt;
+            string transaction = "";
+            if (balance > withdrawAmt)
+            {
+                balance -= withdrawAmt;
+                transaction = "Withdraw $" + withdrawAmt + ". New balance: $" + balance + ";";
+            }
+            else
+            {
+                transaction = "Withdraw $" + withdrawAmt + ". Insufficient funds. Balance: $" + balance + ";";
+            }
 
-            string transaction = "Withdrew $" + withdrawAmt + ". New balance: $" + balance + ";";
 
             return transaction;
         }
