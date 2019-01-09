@@ -8,16 +8,65 @@ namespace digitalATM
 
         public static void Main(string[] args)
         {
-            int balance = 10000;
-            string receiptString = "";
+
             // starts session to track transactions and build receipt
-            // launches Interface (w/ balance) and keep open until user exits
+            int balance = 10000; // initial balance
+            // launches UserPanel and keep open until user exits
+            bool keepGoing = true;
+            while(keepGoing)
+            {
+                keepGoing = UserPanel(balance);
+            }
             // prints receipt after user exits
+        }
+
+        public static bool UserPanel(int balance)
+        {
+            // initiate session
+            string receiptString = ""; // empty receipt string
+            // get user's transaction selection
+            Console.WriteLine("Please select a transaction:");
+            Console.WriteLine("(1) View balance");
+            Console.WriteLine("(2) Deposit funds");
+            Console.WriteLine("(3) Withdraw funds");
+            Console.WriteLine("(4) End session");
+            string transact = Console.ReadLine();
+            // route user's transaction selection
+            string[] transactionResults = { "", "" };
+
+            switch(transact)
+            {
+                case "1":
+                    transactionResults = ViewBalance(balance);
+                    balance = Convert.ToInt16(transactionResults[1]);
+                    receiptString += transactionResults[0];
+                    break;
+                case "2":
+                    Console.WriteLine("Enter deposit amount: ");
+                    string depositAmt = Console.ReadLine();
+                    transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
+                    balance = Convert.ToInt16(transactionResults[1]);
+                    receiptString += transactionResults[0];
+                    break;
+                case "3":
+                    Console.WriteLine("Enter withdrawal amount: ");
+                    string withdrawAmt = Console.ReadLine();
+                    transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
+                    balance = Convert.ToInt16(transactionResults[1]);
+                    receiptString += transactionResults[0];
+                    break;
+                default:
+                    return false;
+            }
+
+            return true; // if user selects 'exit', return 'false'
         }
 
         public static string[] ViewBalance(int balance)
         {
             string transaction = "Checked balance: $" + balance + ";";
+            Console.WriteLine(transaction);
+            Console.ReadLine();
 
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
@@ -28,7 +77,8 @@ namespace digitalATM
             balance += depositAmt;
 
             string transaction = "Deposited $" + depositAmt + ". New balance: $" + balance + ";";
-
+            Console.WriteLine(transaction);
+            Console.ReadLine();
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
         }
@@ -45,7 +95,8 @@ namespace digitalATM
             {
                 transaction = "Withdraw $" + withdrawAmt + ". Insufficient funds. Balance: $" + balance + ";";
             }
-
+            Console.WriteLine(transaction);
+            Console.ReadLine();
             string[] returnArray = { transaction, balance.ToString() };
             return returnArray;
         }
