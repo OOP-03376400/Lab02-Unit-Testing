@@ -53,22 +53,32 @@ namespace digitalATM
                             Console.WriteLine("Invalid input - cancelling transaction");
                         }
                         string depositAmt = Console.ReadLine();
-                        transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
+                        try
+                        {
+                            transactionResults = Deposit(balance, Convert.ToInt16(depositAmt));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("That input isn't valid. Starting over.");
+                            break;
+                        }
                         balance = Convert.ToInt16(transactionResults[1]);
                         receiptString += transactionResults[0];
                         Console.WriteLine(transactionResults[0]);
-                        Console.ReadLine(); break;
+                        Console.ReadLine();
+                        break;
                     case "3":
+                        Console.WriteLine("Enter withdrawal amount: ");
+                        string withdrawAmt = Console.ReadLine();
                         try
                         {
-                            Console.WriteLine("Enter withdrawal amount: ");
+                            transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
                         }
-                        catch
+                        catch (Exception e)
                         {
-                            Console.WriteLine("Invalid input - cancelling transaction");
+                            Console.WriteLine("That input isn't valid. Starting over.");
+                            break;
                         }
-                        string withdrawAmt = Console.ReadLine();
-                        transactionResults = Withdraw(balance, Convert.ToInt16(withdrawAmt));
                         balance = Convert.ToInt16(transactionResults[1]);
                         Console.WriteLine(transactionResults[0]);
                         Console.ReadLine(); receiptString += transactionResults[0];
